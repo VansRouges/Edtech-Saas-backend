@@ -1,0 +1,652 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "MenuJollof Appwrite-Express API",
+        "version": "1.0.0",
+        "description": "API documentation for the MenuJollof Appwrite-Express API"
+    },
+    "paths": {
+        "/api/restaurants/create": {
+            "post": {
+                "summary": "Create a restaurant",
+                "responses": {
+                    "200": {
+                        "description": "Restaurant created successfully"
+                    }
+                }
+            }
+        },
+        "/api/restaurants/{userId}": {
+            "get": {
+                "summary": "Fetch restaurants by user ID",
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "required": true,
+                        "description": "ID of the user",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Restaurants fetched successfully"
+                    }
+                }
+            }
+        },
+        "/api/auth/signup": {
+            "post": {
+                "summary": "Register a new user",
+                "description": "Create a new user account with email and password.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": ["email", "password"],
+                                "properties": {
+                                    "email": { "type": "string", "example": "user@example.com" },
+                                    "password": { "type": "string", "example": "strongpassword123" },
+                                    "name": { "type": "string", "example": "vance" }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": { "description": "User registered successfully" },
+                    "400": { "description": "Invalid input or user already exists" }
+                }
+            }
+        },
+        "/api/auth/login": {
+            "post": {
+                "summary": "User login",
+                "description": "Authenticate user with email and password.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": ["email", "password"],
+                                "properties": {
+                                    "email": { "type": "string", "example": "user@example.com" },
+                                    "password": { "type": "string", "example": "strongpassword123" }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": { "description": "Login successful" },
+                    "401": { "description": "Invalid email or password" }
+                }
+            }
+        },
+        "/api/auth/logout": {
+            "post": {
+                "summary": "Logout user",
+                "description": "Logs out the currently authenticated user.",
+                "responses": {
+                    "200": { "description": "Logout successful" },
+                    "401": { "description": "User is not authenticated" }
+                }
+            }
+        },
+        "/api/menus/create": {
+            "post": {
+                "summary": "Create a new menu item",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "restaurantId": { "type": "string" },
+                                    "name": { "type": "string" },
+                                    "amount": { "type": "number" },
+                                    "discountedAmount?": { "type": "number" },
+                                    "categories": { "type": "array", "items": { "type": "string" } },
+                                    "imageUrl": { "type": "string" }
+                                },
+                                "required": ["restaurantId", "name", "price"]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Menu created successfully"
+                    }
+                }
+            }
+        },
+        "/api/menus/{restaurantId}": {
+            "get": {
+                "summary": "Fetch menus by restaurant ID",
+                "parameters": [
+                    {
+                        "name": "restaurantId",
+                        "in": "path",
+                        "required": true,
+                        "description": "ID of the restaurant",
+                        "schema": { "type": "string" }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Menus fetched successfully"
+                    },
+                    "404": {
+                        "description": "Menus not found"
+                    }
+                }
+            }
+        },
+        "/api/categories/create": {
+            "post": {
+                "summary": "Create a new category",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Appetizers"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Light snacks and starters."
+                                    }
+                                },
+                                "required": ["name"]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Category created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "success": { "type": "boolean" },
+                                        "category": {
+                                            "type": "object",
+                                            "properties": {
+                                                "$id": { "type": "string" },
+                                                "name": { "type": "string" },
+                                                "description": { "type": "string" }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Server error during category creation"
+                    }
+                }
+            }
+        },
+        "/api/categories/{restaurantId}": {
+            "get": {
+                "summary": "Fetch Categories by Restaurant ID",
+                "parameters": [
+                    {
+                        "name": "restaurantId",
+                        "in": "path",
+                        "required": true,
+                        "description": "The ID of the restaurant whose categories you want to fetch",
+                        "schema": {
+                            "type": "string",
+                            "example": "6471c5a4230d2f001f2b8e12"
+                        }
+                    },
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "Search for a specific category by name",
+                        "schema": {
+                            "type": "string",
+                            "example": "Appetizers"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Categories fetched successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "success": { "type": "boolean" },
+                                        "categories": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "$id": { "type": "string", "example": "6471c5a4230d2f001f2b8e13" },
+                                                    "name": { "type": "string", "example": "Appetizers" },
+                                                    "description": { "type": "string", "example": "Light snacks to begin your meal." }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No categories found for the given restaurant ID"
+                    },
+                    "500": {
+                        "description": "Server error during category fetch"
+                    }
+                }
+            }
+        },
+        "/api/restaurant-images/upload": {
+            "post": {
+                "summary": "Upload an image and get its URL",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "image": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                },
+                                "required": ["image"]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Image uploaded successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "success": { "type": "boolean" },
+                                        "imageUrl": { "type": "string" }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "No file uploaded"
+                    },
+                    "500": {
+                        "description": "Server error during image upload"
+                    }
+                }
+            }
+        },
+        "/api/menu-images/upload": {
+            "post": {
+                "summary": "Upload an image and get its URL",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "image": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                },
+                                "required": ["image"]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Image uploaded successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "success": { "type": "boolean" },
+                                        "imageUrl": { "type": "string" }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "No file uploaded"
+                    },
+                    "500": {
+                        "description": "Server error during image upload"
+                    }
+                }
+            }
+        },
+        "/api/dashboard/{userId}": {
+            "get": {
+                "summary": "Fetch Dashboard Data",
+                "description": "Fetch restaurant, categories, and menus by user ID.",
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "required": true,
+                        "description": "ID of the user",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Dashboard data fetched successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "success": { "type": "boolean" },
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {
+                                                "restaurant": { "type": "object" },
+                                                "categories": {
+                                                    "type": "array",
+                                                    "items": { "type": "object" }
+                                                },
+                                                "menus": {
+                                                    "type": "array",
+                                                    "items": { "type": "object" }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request - user ID missing"
+                    },
+                    "500": {
+                        "description": "Server error during data fetch"
+                    }
+                }
+            }
+        },
+        "/api/categories/{categoryId}": {
+            "delete": {
+                "summary": "Delete a category",
+                "description": "Deletes a category by its ID.",
+                "parameters": [
+                    {
+                        "name": "categoryId",
+                        "in": "path",
+                        "required": true,
+                        "description": "ID of the category to delete",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Category deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "success": { "type": "boolean" },
+                                        "message": { "type": "string" }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request - Category ID is required",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "success": { "type": "boolean" },
+                                        "message": { "type": "string" }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Server Error - Failed to delete category",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "success": { "type": "boolean" },
+                                        "message": { "type": "string" }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "summary": "Edit a category",
+                "description": "Edits an existing category by its ID.",
+                "parameters": [
+                    {
+                        "name": "categoryId",
+                        "in": "path",
+                        "required": true,
+                        "description": "ID of the category to edit",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": { "type": "string", "description": "New name of the category" },
+                                    "imageUrl": { "type": "string", "description": "New image URL for the category" }
+                                },
+                                "required": ["name", "imageUrl"]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Category updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "success": { "type": "boolean" },
+                                        "category": {
+                                            "type": "object",
+                                            "properties": {
+                                                "$id": { "type": "string" },
+                                                "name": { "type": "string" },
+                                                "imageUrl": { "type": "string" }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request - Missing required fields",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "success": { "type": "boolean" },
+                                        "message": { "type": "string" }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Server Error - Failed to update category",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "success": { "type": "boolean" },
+                                        "message": { "type": "string" }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/menus/{menuId}": {
+            "delete": {
+                "summary": "Delete a menu item",
+                "description": "Delete a menu by its ID.",
+                "parameters": [
+                    {
+                        "name": "menuId",
+                        "in": "path",
+                        "required": true,
+                        "description": "The ID of the menu to delete.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Menu deleted successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "success": { "type": "boolean" },
+                                        "message": { "type": "string" }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Menu ID is required."
+                    },
+                    "500": {
+                        "description": "Server error while deleting the menu."
+                    }
+                }
+            }
+        },
+        "/api/validate-slug": {
+            "post": {
+                "summary": "Validate restaurant slug uniqueness",
+                "description": "Checks if a given restaurant name generates a unique slug. This prevents duplicate restaurant slugs.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "restaurantName": {
+                                        "type": "string",
+                                        "example": "Best Restaurant"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Slug is valid and unique.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "isValid": {
+                                            "type": "boolean",
+                                            "example": true
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Restaurant with this slug already exists.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Restaurant with this slug already exists. Please choose a different name."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Server error.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "An error occurred while validating the slug."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
