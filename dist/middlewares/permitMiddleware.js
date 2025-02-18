@@ -16,11 +16,10 @@ const permit_1 = __importDefault(require("../utils/permit"));
 const checkPermission = (action, resource) => {
     return (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
         try {
-            const user = req.user; // Ensure your auth middleware sets `req.user`
-            if (!user) {
+            if (!req.user) {
                 return res.status(401).json({ error: 'Unauthorized. User not found' });
             }
-            const isAllowed = yield permit_1.default.check(user.id, action, resource);
+            const isAllowed = yield permit_1.default.check(req.user.id, action, resource);
             if (!isAllowed) {
                 return res.status(403).json({ error: `Permission denied for ${action} on ${resource}` });
             }

@@ -9,11 +9,12 @@ interface AuthenticatedRequest extends Request {
   };
 }
 
-const authMiddleware = (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
+const authMiddleware = (req: AuthenticatedRequest, res: Response, next: NextFunction): void => {
   const token = req.headers.authorization?.split(' ')[1];
 
   if (!token) {
-    return res.status(401).json({ error: 'Unauthorized. No token provided' });
+    res.status(401).json({ error: 'Unauthorized. No token provided' });
+    return 
   }
 
   try {
@@ -21,7 +22,8 @@ const authMiddleware = (req: AuthenticatedRequest, res: Response, next: NextFunc
     req.user = decoded;
     next();
   } catch (error) {
-    return res.status(403).json({ error: 'Invalid token' });
+    res.status(403).json({ error: 'Invalid token' });
+    return 
   }
 };
 
