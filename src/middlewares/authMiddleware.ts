@@ -1,20 +1,28 @@
-// middleware for protecting routes
-import { NextFunction, Request, Response } from 'express';
-import { Account } from 'appwrite';
-import { client } from '../config/appwrite';  // Import Appwrite client
+import { Request, Response, NextFunction } from 'express';
+import jwt from 'jsonwebtoken'; 
 
-export const authMiddleware = async (req: Request, res: Response, next: NextFunction) => {
+// Extend Request type to include 'user'
+interface AuthenticatedRequest extends Request {
+  user?: {
+    id: string;
+    role: string;
+  };
+}
+
+const authMiddleware = (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
+  const token = req.headers.authorization?.split(' ')[1];
+
+  if (!token) {
+    return res.status(401).json({ error: 'Unauthorized. No token provided' });
+  }
+
   try {
-    const sessionToken = req.headers['authorization'];
-    if (!sessionToken) {
-      return res.status(401).json({ error: 'Unauthorized' });
-    }
-
-    const account = new Account(client);
-    await account.get();  // Validate session
-
-    next();  // Move to the next middleware or route
+    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as { id: string; role: string };
+    req.user = decoded;
+    next();
   } catch (error) {
-    return res.status(401).json({ error: 'Invalid or expired session' });
+    return res.status(403).json({ error: 'Invalid token' });
   }
 };
+
+export default authMiddleware;
