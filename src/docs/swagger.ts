@@ -4,9 +4,9 @@ const options = {
   definition: {
     openapi: '3.0.0',
     info: {
-      title: 'MenuJollof Appwrite-Express API',
+      title: 'EdTech Appwrite-Express API',
       version: '1.0.0',
-      description: 'API documentation for the MenuJollof Appwrite-Express API',
+      description: 'API documentation for the EdTech Appwrite-Express API',
     },
   },
   // Paths to files with API documentation
