@@ -16,7 +16,7 @@ interface School {
     cacId: string;
     foundingYear: number;
     moeRegistrationId: string;
-    status: 'pending' | 'approved' | 'rejected';
+    status?: 'pending' | 'approved' | 'rejected';
     userId: string;
 }
 

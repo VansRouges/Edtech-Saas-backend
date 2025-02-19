@@ -19,8 +19,8 @@ export interface SchoolData {
   cacId: string;
   foundingYear: number;
   moeRegistrationId: string;
-  status: 'pending' | 'approved' | 'rejected';
-  userId: string;
+  status?: 'pending' | 'approved' | 'rejected';
+  userId: string; 
 }
 
 // Create a new school
