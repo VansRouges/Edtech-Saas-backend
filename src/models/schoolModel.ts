@@ -21,6 +21,7 @@ export interface SchoolData {
   moeRegistrationId: string;
   status?: 'pending' | 'approved' | 'rejected';
   userId: string; 
+  schoolCode?: string;
 }
 
 // Create a new school
@@ -42,4 +43,37 @@ export async function fetchSchoolByCacIdFromDB(userId: string) {
     Query.equal('userId', userId),
   ]);
   return response.documents.length > 0 ? response.documents[0] : null;
+}
+
+// Update a school by ID
+export async function updateSchoolInDB(schoolId: string, data: Partial<SchoolData>) {
+  try {
+    const updatedSchool = await database.updateDocument(
+      DATABASE_ID,
+      SCHOOL_COLLECTION_ID,
+      schoolId,
+      data
+    );
+    return updatedSchool;
+  } catch (error) {
+    console.error('Error updating school:', error);
+    throw error;
+  }
+}
+
+// Fetch all schools and return an array of objects with school name and schoolCode
+export async function fetchAllSchools(): Promise<{ name: string; schoolCode?: string }[]> {
+  try {
+    const response = await database.listDocuments(DATABASE_ID, SCHOOL_COLLECTION_ID);
+    return response.documents.map((document) => {
+      const school = document as unknown as SchoolData;
+      return {
+        name: school.name,
+        schoolCode: school.schoolCode,
+      };
+    });
+  } catch (error) {
+    console.error('Error fetching schools:', error);
+    throw error;
+  }
 }

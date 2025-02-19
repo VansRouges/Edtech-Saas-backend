@@ -1,4 +1,9 @@
-import { createSchoolInDB, fetchSchoolByCacIdFromDB } from '../models/schoolModel';
+import { 
+    createSchoolInDB, 
+    fetchSchoolByCacIdFromDB, 
+    updateSchoolInDB,
+    fetchAllSchools
+} from '../models/schoolModel';
 import { Request, Response } from 'express';
 
 interface School {
@@ -18,11 +23,30 @@ interface School {
     moeRegistrationId: string;
     status?: 'pending' | 'approved' | 'rejected';
     userId: string;
+    schoolCode?: string;
 }
 
 export async function createSchool(req: Request, res: Response): Promise<void> {
     try {
-        const { name, address, numberOfTeachers, curriculum, founder, numberOfStudents, gender, proprietor, proprietorEducation, admittance, email, cacId, foundingYear, moeRegistrationId, status, userId }: School = req.body;
+        const { 
+            name,
+            address, 
+            numberOfTeachers, 
+            curriculum, 
+            founder, 
+            numberOfStudents, 
+            gender, 
+            proprietor, 
+            proprietorEducation, 
+            admittance, 
+            email, 
+            cacId, 
+            foundingYear, 
+            moeRegistrationId, 
+            status, 
+            userId, 
+            schoolCode
+         }: School = req.body;
 
         if (!['hybrid', 'day', 'boarding'].includes(admittance)) {
             res.status(400).json({ error: 'Invalid admittance type' });
@@ -50,7 +74,8 @@ export async function createSchool(req: Request, res: Response): Promise<void> {
             foundingYear,
             moeRegistrationId,
             status,
-            userId
+            userId,
+            schoolCode
         });
 
         res.status(201).json(newSchool);
@@ -70,6 +95,28 @@ export async function getSchoolByCacId(req: Request, res: Response): Promise<voi
         }
 
         res.status(200).json(school);
+    } catch (error) {
+        res.status(500).json({ error: (error as any).message });
+    }
+}
+
+export async function updateSchool(req: Request, res: Response): Promise<void> {
+    try {
+        const { schoolId } = req.params;
+        const data: Partial<School> = req.body;
+
+        const updatedSchool = await updateSchoolInDB(schoolId, data);
+
+        res.status(200).json(updatedSchool);
+    } catch (error) {
+        res.status(500).json({ error: (error as any).message });
+    }
+}
+
+export async function getAllSchools(req: Request, res: Response): Promise<void> {
+    try {
+        const schools = await fetchAllSchools();
+        res.status(200).json(schools);
     } catch (error) {
         res.status(500).json({ error: (error as any).message });
     }
