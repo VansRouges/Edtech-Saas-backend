@@ -1,11 +1,7 @@
 export interface Profile {
     name: string;
     email: string;
-    role: 'admin' | 'teacher' | 'parent';
+    role: 'admin' | 'teacher';
     userId: string;
-    schoolId: string;
-    isParent?: boolean;
-    isTeacher?: boolean;
-    isAdmin?: boolean;
   }
   
