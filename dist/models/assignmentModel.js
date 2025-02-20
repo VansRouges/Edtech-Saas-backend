@@ -9,22 +9,22 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createStudentInDB = createStudentInDB;
-exports.fetchStudentsFromDB = fetchStudentsFromDB;
+exports.createAssignmentInDB = createAssignmentInDB;
+exports.fetchAssignmentsFromDB = fetchAssignmentsFromDB;
 const appwrite_1 = require("../config/appwrite");
 const environment_1 = require("../config/environment");
-// Create a new student
-function createStudentInDB(data) {
+// Create a new assignment
+function createAssignmentInDB(data) {
     return __awaiter(this, void 0, void 0, function* () {
-        return yield appwrite_1.database.createDocument(environment_1.DATABASE_ID, environment_1.STUDENTS_COLLECTION_ID, appwrite_1.ID.unique(), data, [
+        return yield appwrite_1.database.createDocument(environment_1.DATABASE_ID, environment_1.ASSIGNMENTS_COLLECTION_ID, appwrite_1.ID.unique(), data, [
             appwrite_1.Permission.read(appwrite_1.Role.any()), // Public read permission
         ]);
     });
 }
-// Fetch all students
-function fetchStudentsFromDB() {
+// Fetch all assignments
+function fetchAssignmentsFromDB() {
     return __awaiter(this, void 0, void 0, function* () {
-        const response = yield appwrite_1.database.listDocuments(environment_1.DATABASE_ID, environment_1.STUDENTS_COLLECTION_ID);
+        const response = yield appwrite_1.database.listDocuments(environment_1.DATABASE_ID, environment_1.ASSIGNMENTS_COLLECTION_ID);
         return response.documents;
     });
 }

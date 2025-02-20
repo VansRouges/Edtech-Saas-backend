@@ -4,6 +4,8 @@ import cors from 'cors';  // CORS middleware
 import authRoutes from './authRoutes';  // Import auth routes
 import profileRoutes from './profileRoutes';
 import schoolRoutes from './schoolRoutes';
+import studentRoutes from './studentRoutes';
+import assignmentRoutes from './assignmentRoutes';
 import { errorHandler } from '../utils/errorHandler';  // Custom error handler middleware
 import swaggerUi from 'swagger-ui-express';
 import swaggerSpec from '../docs/swagger.json';
@@ -24,6 +26,8 @@ console.log(swaggerSpec);
 app.use('/api/auth', authRoutes);  // Authentication routes
 app.use('/api', profileRoutes); // Profile routes mounted
 app.use('/api', schoolRoutes); // School routes mounted
+app.use('/api/students', studentRoutes); // Student routes mounted
+app.use('/api/assignments', assignmentRoutes); // Assignment routes mounted
 
 // Global Error Handling Middleware
 app.use(errorHandler);  // Handle errors globally

@@ -12,23 +12,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.syncUserToPermit = void 0;
 const permit_1 = __importDefault(require("../utils/permit"));
-const checkPermission = (action, resource) => {
-    return (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-        try {
-            if (!req.user) {
-                return res.status(401).json({ error: 'Unauthorized. User not found' });
-            }
-            const isAllowed = yield permit_1.default.check(req.user.id, action, resource);
-            if (!isAllowed) {
-                return res.status(403).json({ error: `Permission denied for ${action} on ${resource}` });
-            }
-            next();
-        }
-        catch (error) {
-            console.error('Permit.io authorization error:', error);
-            return res.status(500).json({ error: 'Internal Server Error' });
-        }
-    });
-};
-exports.default = checkPermission;
+const syncUserToPermit = (email) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const permitted = yield permit_1.default.check(email, "create", "students");
+        console.log("Permitted", permitted);
+        return permitted;
+    }
+    catch (error) {
+        console.error(`Error syncing user ${email} to Permit.io:`, error);
+        return false;
+    }
+});
+exports.syncUserToPermit = syncUserToPermit;

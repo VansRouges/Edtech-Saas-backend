@@ -9,6 +9,8 @@ const cors_1 = __importDefault(require("cors")); // CORS middleware
 const authRoutes_1 = __importDefault(require("./authRoutes")); // Import auth routes
 const profileRoutes_1 = __importDefault(require("./profileRoutes"));
 const schoolRoutes_1 = __importDefault(require("./schoolRoutes"));
+const studentRoutes_1 = __importDefault(require("./studentRoutes"));
+const assignmentRoutes_1 = __importDefault(require("./assignmentRoutes"));
 const errorHandler_1 = require("../utils/errorHandler"); // Custom error handler middleware
 const swagger_ui_express_1 = __importDefault(require("swagger-ui-express"));
 const swagger_json_1 = __importDefault(require("../docs/swagger.json"));
@@ -24,6 +26,8 @@ console.log(swagger_json_1.default);
 app.use('/api/auth', authRoutes_1.default); // Authentication routes
 app.use('/api', profileRoutes_1.default); // Profile routes mounted
 app.use('/api', schoolRoutes_1.default); // School routes mounted
+app.use('/api/students', studentRoutes_1.default); // Student routes mounted
+app.use('/api/assignments', assignmentRoutes_1.default); // Assignment routes mounted
 // Global Error Handling Middleware
 app.use(errorHandler_1.errorHandler); // Handle errors globally
 // Default Route

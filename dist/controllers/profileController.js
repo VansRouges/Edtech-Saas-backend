@@ -23,23 +23,6 @@ const PERMIT_AUTH_HEADER = {
     "Content-Type": "application/json",
 };
 // Function to sync user with Permit.io
-// const syncUserToPermit = async (userId: string, role: string, email: string, lastName: string, firstName: string) => {
-//   try {
-//     const permitted = await permit.check(email, "create", "students");
-//     const tenants = await permit.api.tenants.list();
-//     if (permitted) {
-//       console.log(`${email} is PERMITTED to create a document`);
-//     } else {
-//       console.log("John is NOT PERMITTED to create a document");
-//     }
-//     console.log("Permitted", permitted);
-//     console.log(`User ${userId} synced to Permit.io with role ${role}`);
-//     console.log("Tenants", tenants);
-//     return permitted;
-//   } catch (error) {
-//     console.error(`Error syncing user ${userId} to Permit.io:`, error);
-//   }
-// };
 // Create Profile Controller
 const createProfile = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
@@ -50,7 +33,7 @@ const createProfile = (req, res, next) => __awaiter(void 0, void 0, void 0, func
         return;
     }
     // Validate role
-    const allowedRoles = ['admin', 'teacher'];
+    const allowedRoles = ['Admin', 'Teacher'];
     if (!allowedRoles.includes(role)) {
         res.status(400).json({ error: 'Invalid role. Allowed roles: admin, teacher' });
         return;

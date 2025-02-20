@@ -1,7 +1,6 @@
 import { Profile } from '@/models/profile';
 import axios, { AxiosError } from 'axios';
 import { database, ID, Query } from '../config/appwrite';
-import permit from '../utils/permit'; // Ensure this is correctly configured
 import { Request, Response, NextFunction, RequestHandler } from 'express';
 
 const profileId = process.env.APPWRITE_PROFILE_COLLECTION_ID as string; // Ensure this is in .env
@@ -14,23 +13,7 @@ const PERMIT_AUTH_HEADER = {
 };
 
 // Function to sync user with Permit.io
-// const syncUserToPermit = async (userId: string, role: string, email: string, lastName: string, firstName: string) => {
-//   try {
-//     const permitted = await permit.check(email, "create", "students");
-//     const tenants = await permit.api.tenants.list();
-//     if (permitted) {
-//       console.log(`${email} is PERMITTED to create a document`);
-//     } else {
-//       console.log("John is NOT PERMITTED to create a document");
-//     }
-//     console.log("Permitted", permitted);
-//     console.log(`User ${userId} synced to Permit.io with role ${role}`);
-//     console.log("Tenants", tenants);
-//     return permitted;
-//   } catch (error) {
-//     console.error(`Error syncing user ${userId} to Permit.io:`, error);
-//   }
-// };
+
 
 // Create Profile Controller
 export const createProfile: RequestHandler = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
@@ -43,7 +26,7 @@ export const createProfile: RequestHandler = async (req: Request, res: Response,
   }
 
   // Validate role
-  const allowedRoles: Profile['role'][] = ['admin', 'teacher'];
+  const allowedRoles: Profile['role'][] = ['Admin', 'Teacher'];
   if (!allowedRoles.includes(role)) {
     res.status(400).json({ error: 'Invalid role. Allowed roles: admin, teacher' });
     return;

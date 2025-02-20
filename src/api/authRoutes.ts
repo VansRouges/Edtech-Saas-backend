@@ -1,7 +1,6 @@
 // src/routes/authRoutes.ts
 import express from 'express';
 import { signUp, login, logout } from '../controllers/authControllers';
-import checkPermission from '../middlewares/permitMiddleware';
 
 const router = express.Router();
 
