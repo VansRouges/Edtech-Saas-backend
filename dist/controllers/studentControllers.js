@@ -17,11 +17,11 @@ function createStudent(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const { firstName, lastName, gender, className, gpa, creatorEmail } = req.body;
-            if (!['girls', 'boys'].includes(gender)) {
+            if (!['girl', 'boy'].includes(gender)) {
                 res.status(400).json({ error: 'Invalid gender type' });
                 return;
             }
-            const isPermitted = yield (0, permitMiddleware_1.syncUserToPermit)(creatorEmail);
+            const isPermitted = yield (0, permitMiddleware_1.syncUserToPermitStudents)(creatorEmail);
             if (!isPermitted) {
                 res.status(403).json({ error: 'Not authorized' });
                 return;

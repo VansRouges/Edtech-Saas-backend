@@ -12,9 +12,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.syncUserToPermit = void 0;
+exports.syncUserToPermitAssigment = exports.syncUserToPermitStudents = void 0;
 const permit_1 = __importDefault(require("../utils/permit"));
-const syncUserToPermit = (email) => __awaiter(void 0, void 0, void 0, function* () {
+const syncUserToPermitStudents = (email) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const permitted = yield permit_1.default.check(email, "create", "students");
         console.log("Permitted", permitted);
@@ -25,4 +25,16 @@ const syncUserToPermit = (email) => __awaiter(void 0, void 0, void 0, function* 
         return false;
     }
 });
-exports.syncUserToPermit = syncUserToPermit;
+exports.syncUserToPermitStudents = syncUserToPermitStudents;
+const syncUserToPermitAssigment = (email) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const permitted = yield permit_1.default.check(email, "create", "assignments");
+        console.log("Permitted", permitted);
+        return permitted;
+    }
+    catch (error) {
+        console.error(`Error syncing user ${email} to Permit.io:`, error);
+        return false;
+    }
+});
+exports.syncUserToPermitAssigment = syncUserToPermitAssigment;

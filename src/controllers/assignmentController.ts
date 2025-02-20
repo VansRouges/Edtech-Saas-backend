@@ -1,13 +1,13 @@
 import { Request, Response } from 'express';
 import { createAssignmentInDB, AssignmentData, fetchAssignmentsFromDB } from '../models/assignmentModel';
-import { syncUserToPermit } from '../middlewares/permitMiddleware';
+import { syncUserToPermitAssigment } from '../middlewares/permitMiddleware';
 
 // Create a new assignment
 export async function createAssignment(req: Request<{}, {}, AssignmentData>, res: Response): Promise<void> {
     try {
         const { title, subject, teacher, className, dueDate, creatorEmail }: AssignmentData = req.body;
 
-        const isPermitted = await syncUserToPermit(creatorEmail);
+        const isPermitted = await syncUserToPermitAssigment(creatorEmail);
         if (!isPermitted) {
             res.status(403).json({ error: 'Not authorized' });
             return;

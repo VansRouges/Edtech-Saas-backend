@@ -26,8 +26,8 @@ console.log(swagger_json_1.default);
 app.use('/api/auth', authRoutes_1.default); // Authentication routes
 app.use('/api', profileRoutes_1.default); // Profile routes mounted
 app.use('/api', schoolRoutes_1.default); // School routes mounted
-app.use('/api/students', studentRoutes_1.default); // Student routes mounted
-app.use('/api/assignments', assignmentRoutes_1.default); // Assignment routes mounted
+app.use('/api', studentRoutes_1.default); // Student routes mounted
+app.use('/api', assignmentRoutes_1.default); // Assignment routes mounted
 // Global Error Handling Middleware
 app.use(errorHandler_1.errorHandler); // Handle errors globally
 // Default Route

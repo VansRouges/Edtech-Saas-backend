@@ -18,7 +18,7 @@ function createAssignment(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const { title, subject, teacher, className, dueDate, creatorEmail } = req.body;
-            const isPermitted = yield (0, permitMiddleware_1.syncUserToPermit)(creatorEmail);
+            const isPermitted = yield (0, permitMiddleware_1.syncUserToPermitAssigment)(creatorEmail);
             if (!isPermitted) {
                 res.status(403).json({ error: 'Not authorized' });
                 return;

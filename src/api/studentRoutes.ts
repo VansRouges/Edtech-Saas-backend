@@ -5,7 +5,7 @@ import authMiddleware from '../middlewares/authMiddleware';
 const router = express.Router();
 
 // Define student-related endpoints
-router.post('/create', authMiddleware, createStudent); // Create a new student
-router.get('/', authMiddleware, fetchStudents); // Fetch all students
+router.post('/students', authMiddleware, createStudent); // Create a new student
+router.get('/students', authMiddleware, fetchStudents); // Fetch all students
 
 export default router; // Export the router instance

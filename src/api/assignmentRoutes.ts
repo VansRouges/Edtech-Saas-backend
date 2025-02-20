@@ -4,7 +4,7 @@ import authMiddleware from "../middlewares/authMiddleware"
 
 const router = express.Router()
 
-router.post("/create", authMiddleware, createAssignment)
-router.get("/", authMiddleware, fetchAssignments)
+router.post("/assignments", authMiddleware, createAssignment)
+router.get("/assignments", authMiddleware, fetchAssignments)
 
 export default router

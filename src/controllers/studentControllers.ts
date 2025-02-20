@@ -4,19 +4,19 @@ import {
     StudentData
 } from '../models/studentModel';
 import { Request, Response } from 'express';
-import { syncUserToPermit } from '../middlewares/permitMiddleware';
+import { syncUserToPermitStudents } from '../middlewares/permitMiddleware';
 
 
 export async function createStudent(req: Request, res: Response): Promise<void> {
     try {
         const { firstName, lastName, gender, className, gpa, creatorEmail }: StudentData = req.body;
 
-        if (!['girls', 'boys'].includes(gender)) {
+        if (!['girl', 'boy'].includes(gender)) {
             res.status(400).json({ error: 'Invalid gender type' });
             return;
         }
 
-        const isPermitted = await syncUserToPermit(creatorEmail);
+        const isPermitted = await syncUserToPermitStudents(creatorEmail);
         if (!isPermitted) {
             res.status(403).json({ error: 'Not authorized' });
             return;
