@@ -13,32 +13,36 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getProfileByEmail = exports.createProfile = void 0;
+const axios_1 = __importDefault(require("axios"));
 const appwrite_1 = require("../config/appwrite");
-const permit_1 = __importDefault(require("../utils/permit")); // Ensure this is correctly configured
 const profileId = process.env.APPWRITE_PROFILE_COLLECTION_ID; // Ensure this is in .env
 const databaseId = process.env.APPWRITE_DATABASE_ID; // Ensure this is in .env
+const PERMIT_API_URL = "https://api.permit.io/v2/facts/3e4b77901d8f4fd1a51109f8ed04f615/bf4959f547c74a1c8bff519b20a9174b/users";
+const PERMIT_AUTH_HEADER = {
+    Authorization: "Bearer permit_key_TLfne4MA2cfEdeYXoeBFA8pkpOmuKLvzTNC8aaSNVwWd4Wh10A9bpruKsAeM2xFmfZWvMozgiF4ammdol09aCZ",
+    "Content-Type": "application/json",
+};
 // Function to sync user with Permit.io
-const syncUserToPermit = (userId, role, email, lastName, firstName) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const permitted = yield permit_1.default.check(email, "create", "students");
-        const tenants = yield permit_1.default.api.tenants.list();
-        if (permitted) {
-            console.log(`${email} is PERMITTED to create a document`);
-        }
-        else {
-            console.log("John is NOT PERMITTED to create a document");
-        }
-        console.log("Permitted", permitted);
-        console.log(`User ${userId} synced to Permit.io with role ${role}`);
-        console.log("Tenants", tenants);
-        return permitted;
-    }
-    catch (error) {
-        console.error(`Error syncing user ${userId} to Permit.io:`, error);
-    }
-});
+// const syncUserToPermit = async (userId: string, role: string, email: string, lastName: string, firstName: string) => {
+//   try {
+//     const permitted = await permit.check(email, "create", "students");
+//     const tenants = await permit.api.tenants.list();
+//     if (permitted) {
+//       console.log(`${email} is PERMITTED to create a document`);
+//     } else {
+//       console.log("John is NOT PERMITTED to create a document");
+//     }
+//     console.log("Permitted", permitted);
+//     console.log(`User ${userId} synced to Permit.io with role ${role}`);
+//     console.log("Tenants", tenants);
+//     return permitted;
+//   } catch (error) {
+//     console.error(`Error syncing user ${userId} to Permit.io:`, error);
+//   }
+// };
 // Create Profile Controller
 const createProfile = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
     const { firstName, lastName, email, role, userId } = req.body;
     console.log(req.body);
     if (!email || !role || !userId) {
@@ -52,11 +56,36 @@ const createProfile = (req, res, next) => __awaiter(void 0, void 0, void 0, func
         return;
     }
     try {
-        const profile = yield appwrite_1.database.createDocument(databaseId, profileId, appwrite_1.ID.unique(), { firstName, lastName, email, role, userId });
-        // Sync user to Permit.io
-        const check = yield syncUserToPermit(userId, role, email, firstName, lastName);
-        console.log('Profile created and synced:', profile);
-        res.status(201).json({ success: true, profile, check });
+        const newUser = yield appwrite_1.database.createDocument(databaseId, profileId, appwrite_1.ID.unique(), { firstName, lastName, email, role, userId });
+        // Step 2: Sync user to Permit.io
+        const permitPayload = {
+            key: email,
+            email,
+            first_name: firstName,
+            last_name: lastName,
+            role_assignments: [{ role, tenant: "default" }],
+        };
+        let permitResponse;
+        try {
+            const response = yield axios_1.default.post(PERMIT_API_URL, permitPayload, { headers: PERMIT_AUTH_HEADER });
+            permitResponse = response.data;
+            console.log("User synced to Permit.io:", permitResponse);
+        }
+        catch (permitError) {
+            if (axios_1.default.isAxiosError(permitError)) {
+                console.error("Failed to sync user to Permit.io:", ((_a = permitError.response) === null || _a === void 0 ? void 0 : _a.data) || permitError.message);
+            }
+            else {
+                console.error("Failed to sync user to Permit.io:", permitError);
+            }
+            permitResponse = { error: "Failed to sync with Permit.io" };
+        }
+        // Step 3: Return both responses
+        res.status(201).json({
+            message: "User profile created successfully",
+            user: newUser,
+            permit: permitResponse,
+        });
         return;
     }
     catch (error) {
