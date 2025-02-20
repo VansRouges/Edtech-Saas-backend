@@ -16,9 +16,7 @@ const environment_1 = require("../config/environment");
 // Create a new assignment
 function createAssignmentInDB(data) {
     return __awaiter(this, void 0, void 0, function* () {
-        return yield appwrite_1.database.createDocument(environment_1.DATABASE_ID, environment_1.ASSIGNMENTS_COLLECTION_ID, appwrite_1.ID.unique(), data, [
-            appwrite_1.Permission.read(appwrite_1.Role.any()), // Public read permission
-        ]);
+        return yield appwrite_1.database.createDocument(environment_1.DATABASE_ID, environment_1.ASSIGNMENTS_COLLECTION_ID, appwrite_1.ID.unique(), data);
     });
 }
 // Fetch all assignments

@@ -31,9 +31,11 @@ function createAssignment(req, res) {
                 dueDate,
                 creatorEmail
             });
+            console.log('New assignment created:', newAssignment);
             res.status(201).json(newAssignment);
         }
         catch (error) {
+            console.error('Error creating assignment:', error);
             res.status(500).json({ error: error.message });
         }
     });

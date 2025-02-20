@@ -1,14 +1,15 @@
 import { Profile } from '@/models/profile';
-import axios, { AxiosError } from 'axios';
+import axios from 'axios';
 import { database, ID, Query } from '../config/appwrite';
 import { Request, Response, NextFunction, RequestHandler } from 'express';
+import { PERMIT_API_KEY } from '../config/environment';
 
 const profileId = process.env.APPWRITE_PROFILE_COLLECTION_ID as string; // Ensure this is in .env
 const databaseId = process.env.APPWRITE_DATABASE_ID as string; // Ensure this is in .env
 
 const PERMIT_API_URL = "https://api.permit.io/v2/facts/3e4b77901d8f4fd1a51109f8ed04f615/bf4959f547c74a1c8bff519b20a9174b/users";
 const PERMIT_AUTH_HEADER = {
-  Authorization: "Bearer permit_key_TLfne4MA2cfEdeYXoeBFA8pkpOmuKLvzTNC8aaSNVwWd4Wh10A9bpruKsAeM2xFmfZWvMozgiF4ammdol09aCZ",
+  Authorization: `Bearer ${PERMIT_API_KEY}`,
   "Content-Type": "application/json",
 };
 

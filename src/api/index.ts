@@ -27,7 +27,7 @@ app.use('/api/auth', authRoutes);  // Authentication routes
 app.use('/api', profileRoutes); // Profile routes mounted
 app.use('/api', schoolRoutes); // School routes mounted
 app.use('/api', studentRoutes); // Student routes mounted
-app.use('/api', assignmentRoutes); // Assignment routes mounted
+app.use('/api/assignments', assignmentRoutes); // Assignment routes mounted
 
 // Global Error Handling Middleware
 app.use(errorHandler);  // Handle errors globally

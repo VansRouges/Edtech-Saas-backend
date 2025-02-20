@@ -1,4 +1,4 @@
-import { database, ID, Permission, Role, Query } from '../config/appwrite';
+import { database, ID } from '../config/appwrite';
 import { DATABASE_ID, ASSIGNMENTS_COLLECTION_ID } from '../config/environment';
 
 export interface AssignmentData {
@@ -16,10 +16,7 @@ export async function createAssignmentInDB(data: AssignmentData) {
       DATABASE_ID,
       ASSIGNMENTS_COLLECTION_ID,
       ID.unique(),
-      data,
-      [
-        Permission.read(Role.any()),  // Public read permission
-      ]
+      data
     );
 }
 

@@ -15,11 +15,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getProfileByEmail = exports.createProfile = void 0;
 const axios_1 = __importDefault(require("axios"));
 const appwrite_1 = require("../config/appwrite");
+const environment_1 = require("../config/environment");
 const profileId = process.env.APPWRITE_PROFILE_COLLECTION_ID; // Ensure this is in .env
 const databaseId = process.env.APPWRITE_DATABASE_ID; // Ensure this is in .env
 const PERMIT_API_URL = "https://api.permit.io/v2/facts/3e4b77901d8f4fd1a51109f8ed04f615/bf4959f547c74a1c8bff519b20a9174b/users";
 const PERMIT_AUTH_HEADER = {
-    Authorization: "Bearer permit_key_TLfne4MA2cfEdeYXoeBFA8pkpOmuKLvzTNC8aaSNVwWd4Wh10A9bpruKsAeM2xFmfZWvMozgiF4ammdol09aCZ",
+    Authorization: `Bearer ${environment_1.PERMIT_API_KEY}`,
     "Content-Type": "application/json",
 };
 // Function to sync user with Permit.io
