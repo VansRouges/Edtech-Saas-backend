@@ -14,9 +14,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.syncUserToPermitAssigment = exports.syncUserToPermitStudents = void 0;
 const permit_1 = __importDefault(require("../utils/permit"));
-const syncUserToPermitStudents = (email) => __awaiter(void 0, void 0, void 0, function* () {
+const syncUserToPermitStudents = (email, action, resource) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const permitted = yield permit_1.default.check(email, "create", "students");
+        const permitted = yield permit_1.default.check(email, action, resource);
         console.log("Permitted", permitted);
         return permitted;
     }
@@ -26,9 +26,9 @@ const syncUserToPermitStudents = (email) => __awaiter(void 0, void 0, void 0, fu
     }
 });
 exports.syncUserToPermitStudents = syncUserToPermitStudents;
-const syncUserToPermitAssigment = (email) => __awaiter(void 0, void 0, void 0, function* () {
+const syncUserToPermitAssigment = (email, action, resource) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const permitted = yield permit_1.default.check(email, "create", "assignments");
+        const permitted = yield permit_1.default.check(email, action, resource);
         console.log("Permitted", permitted);
         return permitted;
     }

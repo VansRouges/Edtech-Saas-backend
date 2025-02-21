@@ -18,7 +18,7 @@ function createAssignment(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const { title, subject, teacher, className, dueDate, creatorEmail } = req.body;
-            const isPermitted = yield (0, permitMiddleware_1.syncUserToPermitAssigment)(creatorEmail);
+            const isPermitted = yield (0, permitMiddleware_1.syncUserToPermitAssigment)(creatorEmail, "create", "assignments");
             if (!isPermitted) {
                 res.status(403).json({ error: 'Not authorized' });
                 return;
@@ -44,6 +44,12 @@ function createAssignment(req, res) {
 function fetchAssignments(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
+            const { email } = req.body;
+            const isPermitted = yield (0, permitMiddleware_1.syncUserToPermitAssigment)(email, "read", "assignments");
+            if (!isPermitted) {
+                res.status(403).json({ message: 'Not authorized' });
+                return;
+            }
             const assignments = yield (0, assignmentModel_1.fetchAssignmentsFromDB)();
             res.status(200).json(assignments);
         }

@@ -16,9 +16,9 @@ export async function createStudent(req: Request, res: Response): Promise<void> 
             return;
         }
 
-        const isPermitted = await syncUserToPermitStudents(creatorEmail);
+        const isPermitted = await syncUserToPermitStudents(creatorEmail, "create", "students");
         if (!isPermitted) {
-            res.status(403).json({ error: 'Not authorized' });
+            res.status(403).json({ message: 'Not authorized' });
             return;
         }
 
@@ -39,6 +39,14 @@ export async function createStudent(req: Request, res: Response): Promise<void> 
 // Fetch all students
 export async function fetchStudents(req: Request, res: Response): Promise<void> {
     try {
+        const { email } = req.body;
+
+        const isPermitted = await syncUserToPermitStudents(email, "read", "students");
+        if (!isPermitted) {
+            res.status(403).json({ message: 'Not authorized' });
+            return;
+        }
+
         const students = await fetchStudentsFromDB();
         res.status(200).json(students);
     } catch (error) {

@@ -21,9 +21,9 @@ function createStudent(req, res) {
                 res.status(400).json({ error: 'Invalid gender type' });
                 return;
             }
-            const isPermitted = yield (0, permitMiddleware_1.syncUserToPermitStudents)(creatorEmail);
+            const isPermitted = yield (0, permitMiddleware_1.syncUserToPermitStudents)(creatorEmail, "create", "students");
             if (!isPermitted) {
-                res.status(403).json({ error: 'Not authorized' });
+                res.status(403).json({ message: 'Not authorized' });
                 return;
             }
             const newStudent = yield (0, studentModel_1.createStudentInDB)({
@@ -45,6 +45,12 @@ function createStudent(req, res) {
 function fetchStudents(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
+            const { email } = req.body;
+            const isPermitted = yield (0, permitMiddleware_1.syncUserToPermitStudents)(email, "read", "students");
+            if (!isPermitted) {
+                res.status(403).json({ message: 'Not authorized' });
+                return;
+            }
             const students = yield (0, studentModel_1.fetchStudentsFromDB)();
             res.status(200).json(students);
         }

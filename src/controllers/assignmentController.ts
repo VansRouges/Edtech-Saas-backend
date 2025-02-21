@@ -7,7 +7,7 @@ export async function createAssignment(req: Request<{}, {}, AssignmentData>, res
     try {
         const { title, subject, teacher, className, dueDate, creatorEmail }: AssignmentData = req.body;
 
-        const isPermitted = await syncUserToPermitAssigment(creatorEmail);
+        const isPermitted = await syncUserToPermitAssigment(creatorEmail, "create", "assignments");
         if (!isPermitted) {
             res.status(403).json({ error: 'Not authorized' });
             return;
@@ -34,6 +34,14 @@ export async function createAssignment(req: Request<{}, {}, AssignmentData>, res
 // Fetch all assignments
 export async function fetchAssignments(req: Request, res: Response): Promise<void> {
     try {
+        const { email } = req.body;
+        
+        const isPermitted = await syncUserToPermitAssigment(email, "read", "assignments");
+        if (!isPermitted) {
+            res.status(403).json({ message: 'Not authorized' });
+            return;
+        }
+
         const assignments = await fetchAssignmentsFromDB();
         res.status(200).json(assignments);
     } catch (error) {
