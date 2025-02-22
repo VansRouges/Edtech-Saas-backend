@@ -4,7 +4,7 @@ import { DATABASE_ID, STUDENTS_COLLECTION_ID } from '../config/environment';
 export interface StudentData {
   firstName: string;
   lastName: string;
-  gender: 'girls' | 'boys';
+  gender: 'girl' | 'boy' | 'Boy' | 'Girl';
   className: string;
   age: number;
   creatorEmail: string;
