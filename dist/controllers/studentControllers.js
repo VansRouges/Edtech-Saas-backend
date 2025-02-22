@@ -16,7 +16,7 @@ const permitMiddleware_1 = require("../middlewares/permitMiddleware");
 function createStudent(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const { firstName, lastName, gender, className, gpa, creatorEmail } = req.body;
+            const { firstName, lastName, gender, className, age, creatorEmail } = req.body;
             if (!['girl', 'boy'].includes(gender)) {
                 res.status(400).json({ error: 'Invalid gender type' });
                 return;
@@ -31,7 +31,7 @@ function createStudent(req, res) {
                 lastName,
                 gender,
                 className,
-                gpa,
+                age,
                 creatorEmail
             });
             res.status(201).json(newStudent);

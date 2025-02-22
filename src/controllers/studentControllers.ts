@@ -9,7 +9,7 @@ import { syncUserToPermitStudents } from '../middlewares/permitMiddleware';
 
 export async function createStudent(req: Request, res: Response): Promise<void> {
     try {
-        const { firstName, lastName, gender, className, gpa, creatorEmail }: StudentData = req.body;
+        const { firstName, lastName, gender, className, age, creatorEmail }: StudentData = req.body;
 
         if (!['girl', 'boy'].includes(gender)) {
             res.status(400).json({ error: 'Invalid gender type' });
@@ -27,7 +27,7 @@ export async function createStudent(req: Request, res: Response): Promise<void> 
             lastName,
             gender,
             className,
-            gpa,
+            age,
             creatorEmail
         });
         res.status(201).json(newStudent);
