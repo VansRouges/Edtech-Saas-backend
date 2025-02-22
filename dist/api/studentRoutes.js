@@ -9,5 +9,5 @@ const authMiddleware_1 = __importDefault(require("../middlewares/authMiddleware"
 const router = express_1.default.Router();
 // Define student-related endpoints
 router.post('/students', authMiddleware_1.default, studentControllers_1.createStudent); // Create a new student
-router.get('/students', authMiddleware_1.default, studentControllers_1.fetchStudents); // Fetch all students
+router.get('/students/:email', authMiddleware_1.default, studentControllers_1.fetchStudents); // Fetch all students
 exports.default = router; // Export the router instance

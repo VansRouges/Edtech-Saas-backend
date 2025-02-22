@@ -34,7 +34,7 @@ export async function createAssignment(req: Request<{}, {}, AssignmentData>, res
 // Fetch all assignments
 export async function fetchAssignments(req: Request, res: Response): Promise<void> {
     try {
-        const { email } = req.body;
+        const { email } = req.params;
         
         const isPermitted = await syncUserToPermitAssigment(email, "read", "assignments");
         if (!isPermitted) {

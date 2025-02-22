@@ -8,5 +8,5 @@ const assignmentController_1 = require("../controllers/assignmentController");
 const authMiddleware_1 = __importDefault(require("../middlewares/authMiddleware"));
 const router = express_1.default.Router();
 router.post("/create", authMiddleware_1.default, assignmentController_1.createAssignment);
-router.get("/get-all", authMiddleware_1.default, assignmentController_1.fetchAssignments);
+router.get("/:email", authMiddleware_1.default, assignmentController_1.fetchAssignments);
 exports.default = router;

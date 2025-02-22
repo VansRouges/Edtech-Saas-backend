@@ -39,7 +39,7 @@ export async function createStudent(req: Request, res: Response): Promise<void> 
 // Fetch all students
 export async function fetchStudents(req: Request, res: Response): Promise<void> {
     try {
-        const { email } = req.body;
+        const { email } = req.params;
 
         const isPermitted = await syncUserToPermitStudents(email, "read", "students");
         if (!isPermitted) {

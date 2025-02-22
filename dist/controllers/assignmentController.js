@@ -44,7 +44,7 @@ function createAssignment(req, res) {
 function fetchAssignments(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const { email } = req.body;
+            const { email } = req.params;
             const isPermitted = yield (0, permitMiddleware_1.syncUserToPermitAssigment)(email, "read", "assignments");
             if (!isPermitted) {
                 res.status(403).json({ message: 'Not authorized' });
