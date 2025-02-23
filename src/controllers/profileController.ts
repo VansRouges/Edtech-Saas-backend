@@ -27,9 +27,9 @@ export const createProfile: RequestHandler = async (req: Request, res: Response,
   }
 
   // Validate role
-  const allowedRoles: Profile['role'][] = ['Admin', 'Teacher'];
+  const allowedRoles: Profile['role'][] = ['Admin', 'Teacher', 'Student'];
   if (!allowedRoles.includes(role)) {
-    res.status(400).json({ error: 'Invalid role. Allowed roles: admin, teacher' });
+    res.status(400).json({ error: 'Invalid role. Allowed roles: admin, teacher, student' });
     return;
   }
 

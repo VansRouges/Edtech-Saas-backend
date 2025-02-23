@@ -34,9 +34,9 @@ const createProfile = (req, res, next) => __awaiter(void 0, void 0, void 0, func
         return;
     }
     // Validate role
-    const allowedRoles = ['Admin', 'Teacher'];
+    const allowedRoles = ['Admin', 'Teacher', 'Student'];
     if (!allowedRoles.includes(role)) {
-        res.status(400).json({ error: 'Invalid role. Allowed roles: admin, teacher' });
+        res.status(400).json({ error: 'Invalid role. Allowed roles: admin, teacher, student' });
         return;
     }
     try {
