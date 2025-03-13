@@ -1,11 +1,11 @@
 import express, { Request, Response } from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';  // CORS middleware
-import authRoutes from './authRoutes';  // Import auth routes
-import profileRoutes from './profileRoutes';
+import authRoutes from './auth';  // Import auth routes
+import profileRoutes from './profile';
 import schoolRoutes from './schoolRoutes';
-import studentRoutes from './studentRoutes';
-import assignmentRoutes from './assignmentRoutes';
+import studentRoutes from './student';
+import assignmentRoutes from './assignment';
 import { errorHandler } from '../utils/errorHandler';  // Custom error handler middleware
 import swaggerUi from 'swagger-ui-express';
 import swaggerSpec from '../docs/swagger.json';

@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import { createAssignmentInDB, AssignmentData, fetchAssignmentsFromDB } from '../models/assignmentModel';
-import { syncUserToPermitAssigment } from '../middlewares/permitMiddleware';
+import { createAssignmentInDB, AssignmentData, fetchAssignmentsFromDB } from '../models/assignment';
+import { syncUserToPermitAssigment } from '../middleware/permit';
 
 // Create a new assignment
 export async function createAssignment(req: Request<{}, {}, AssignmentData>, res: Response): Promise<void> {

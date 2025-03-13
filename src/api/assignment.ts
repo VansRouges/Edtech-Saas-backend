@@ -1,6 +1,6 @@
 import express from "express"
-import { createAssignment, fetchAssignments } from "../controllers/assignmentController"
-import authMiddleware from "../middlewares/authMiddleware"
+import { createAssignment, fetchAssignments } from "../controllers/assignment"
+import authMiddleware from "../middleware/auth"
 
 const router = express.Router()
 

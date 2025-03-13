@@ -9,49 +9,50 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createAssignment = createAssignment;
-exports.fetchAssignments = fetchAssignments;
-const assignmentModel_1 = require("../models/assignmentModel");
+exports.createStudent = createStudent;
+exports.fetchStudents = fetchStudents;
+const student_1 = require("../models/student");
 const permit_1 = require("../middleware/permit");
-// Create a new assignment
-function createAssignment(req, res) {
+function createStudent(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const { title, subject, teacher, className, dueDate, creatorEmail } = req.body;
-            const isPermitted = yield (0, permit_1.syncUserToPermitAssigment)(creatorEmail, "create", "assignments");
-            if (!isPermitted) {
-                res.status(403).json({ error: 'Not authorized' });
+            const { firstName, lastName, gender, className, age, creatorEmail } = req.body;
+            if (!['girl', 'boy'].includes(gender)) {
+                res.status(400).json({ error: 'Invalid gender type' });
                 return;
             }
-            const newAssignment = yield (0, assignmentModel_1.createAssignmentInDB)({
-                title,
-                subject,
-                teacher,
-                className,
-                dueDate,
-                creatorEmail
-            });
-            console.log('New assignment created:', newAssignment);
-            res.status(201).json(newAssignment);
-        }
-        catch (error) {
-            console.error('Error creating assignment:', error);
-            res.status(500).json({ error: error.message });
-        }
-    });
-}
-// Fetch all assignments
-function fetchAssignments(req, res) {
-    return __awaiter(this, void 0, void 0, function* () {
-        try {
-            const { email } = req.params;
-            const isPermitted = yield (0, permit_1.syncUserToPermitAssigment)(email, "read", "assignments");
+            const isPermitted = yield (0, permit_1.syncUserToPermitStudents)(creatorEmail, "create", "students");
             if (!isPermitted) {
                 res.status(403).json({ message: 'Not authorized' });
                 return;
             }
-            const assignments = yield (0, assignmentModel_1.fetchAssignmentsFromDB)();
-            res.status(200).json(assignments);
+            const newStudent = yield (0, student_1.createStudentInDB)({
+                firstName,
+                lastName,
+                gender,
+                className,
+                age,
+                creatorEmail
+            });
+            res.status(201).json(newStudent);
+        }
+        catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    });
+}
+// Fetch all students
+function fetchStudents(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const { email } = req.params;
+            const isPermitted = yield (0, permit_1.syncUserToPermitStudents)(email, "read", "students");
+            if (!isPermitted) {
+                res.status(403).json({ message: 'Not authorized' });
+                return;
+            }
+            const students = yield (0, student_1.fetchStudentsFromDB)();
+            res.status(200).json(students);
         }
         catch (error) {
             res.status(500).json({ error: error.message });

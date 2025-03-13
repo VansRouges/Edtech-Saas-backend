@@ -11,7 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createAssignment = createAssignment;
 exports.fetchAssignments = fetchAssignments;
-const assignmentModel_1 = require("../models/assignmentModel");
+const assignment_1 = require("../models/assignment");
 const permit_1 = require("../middleware/permit");
 // Create a new assignment
 function createAssignment(req, res) {
@@ -23,7 +23,7 @@ function createAssignment(req, res) {
                 res.status(403).json({ error: 'Not authorized' });
                 return;
             }
-            const newAssignment = yield (0, assignmentModel_1.createAssignmentInDB)({
+            const newAssignment = yield (0, assignment_1.createAssignmentInDB)({
                 title,
                 subject,
                 teacher,
@@ -50,7 +50,7 @@ function fetchAssignments(req, res) {
                 res.status(403).json({ message: 'Not authorized' });
                 return;
             }
-            const assignments = yield (0, assignmentModel_1.fetchAssignmentsFromDB)();
+            const assignments = yield (0, assignment_1.fetchAssignmentsFromDB)();
             res.status(200).json(assignments);
         }
         catch (error) {

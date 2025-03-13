@@ -4,11 +4,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const profileController_1 = require("../controllers/profileController");
-const authMiddleware_1 = __importDefault(require("../middlewares/authMiddleware"));
+const profile_1 = require("../controllers/profile");
+const auth_1 = __importDefault(require("../middleware/auth"));
 const router = express_1.default.Router();
 // Route for creating a profile
-router.post('/profile', authMiddleware_1.default, profileController_1.createProfile);
+router.post('/profile', auth_1.default, profile_1.createProfile);
 // Route for getting a profile by email
-router.get('/profile/:email', authMiddleware_1.default, profileController_1.getProfileByEmail);
+router.get('/profile/:email', auth_1.default, profile_1.getProfileByEmail);
 exports.default = router;

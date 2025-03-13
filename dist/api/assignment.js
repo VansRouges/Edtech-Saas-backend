@@ -4,10 +4,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const multer_1 = __importDefault(require("multer"));
-const menuImageController_1 = require("../controllers/menuImageController");
+const assignment_1 = require("../controllers/assignment");
+const auth_1 = __importDefault(require("../middleware/auth"));
 const router = express_1.default.Router();
-const upload = (0, multer_1.default)(); // Initialize Multer for in-memory file storage
-// Route to upload an image
-router.post('/upload', upload.single('image'), menuImageController_1.uploadImage);
+router.post("/create", auth_1.default, assignment_1.createAssignment);
+router.get("/:email", auth_1.default, assignment_1.fetchAssignments);
 exports.default = router;

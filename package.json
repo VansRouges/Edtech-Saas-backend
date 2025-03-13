@@ -12,19 +12,15 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@sentry/node": "^8.34.0",
-    "@sentry/tracing": "^7.114.0",
     "appwrite": "^16.0.2",
     "axios": "^1.7.9",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.21.1",
     "jsonwebtoken": "^9.0.2",
-    "multer": "^1.4.5-lts.1",
     "permitio": "^2.7.2-rc",
     "swagger-jsdoc": "^6.2.8",
-    "swagger-ui-express": "^5.0.1",
-    "winston": "^3.15.0"
+    "swagger-ui-express": "^5.0.1"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",

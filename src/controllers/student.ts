@@ -2,9 +2,9 @@ import {
     createStudentInDB,
     fetchStudentsFromDB,
     StudentData
-} from '../models/studentModel';
+} from '../models/student';
 import { Request, Response } from 'express';
-import { syncUserToPermitStudents } from '../middlewares/permitMiddleware';
+import { syncUserToPermitStudents } from '../middleware/permit';
 
 
 export async function createStudent(req: Request, res: Response): Promise<void> {

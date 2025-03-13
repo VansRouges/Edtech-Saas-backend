@@ -1,6 +1,6 @@
 import express from 'express';
 import { createSchool, getSchoolByCacId, updateSchool, getAllSchools } from '../controllers/schoolController';
-import authMiddleware from '../middlewares/authMiddleware';
+import authMiddleware from '../middleware/auth';
 
 const router = express.Router();
 
