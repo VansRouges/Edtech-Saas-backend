@@ -4,6 +4,8 @@ dotenv.config();  // Load environment variables from .env
 
 export const APPWRITE_ENDPOINT = process.env.APPWRITE_ENDPOINT || '';
 export const PERMIT_API_KEY = process.env.PERMIT_API_KEY || '';
+export const PERMIT_PROJECT_ID = process.env.PERMIT_PROJECT_ID || '';
+export const PERMIT_ENV_ID = process.env.PERMIT_ENV_ID || '';
 export const APPWRITE_PROJECT_ID = process.env.APPWRITE_PROJECT_ID || '';
 export const APPWRITE_API_KEY = process.env.APPWRITE_API_KEY || '';
 export const DATABASE_ID = process.env.APPWRITE_DATABASE_ID || '';

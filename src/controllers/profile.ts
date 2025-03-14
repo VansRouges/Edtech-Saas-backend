@@ -6,8 +6,10 @@ import { PERMIT_API_KEY } from '../config/environment';
 
 const profileId = process.env.APPWRITE_PROFILE_COLLECTION_ID as string; // Ensure this is in .env
 const databaseId = process.env.APPWRITE_DATABASE_ID as string; // Ensure this is in .env
+const projectId = process.env.PERMIT_PROJECT_ID as string
+const environmentId = process.env.PERMIT_ENV_ID as string
 
-const PERMIT_API_URL = "https://api.permit.io/v2/facts/3e4b77901d8f4fd1a51109f8ed04f615/bf4959f547c74a1c8bff519b20a9174b/users";
+const PERMIT_API_URL = `https://api.permit.io/v2/facts/${projectId}/${environmentId}/users`;
 const PERMIT_AUTH_HEADER = {
   Authorization: `Bearer ${PERMIT_API_KEY}`,
   "Content-Type": "application/json",
