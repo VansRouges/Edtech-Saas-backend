@@ -1,6 +1,6 @@
 import permit from '../utils/permit';
 
-export const syncUserToPermitStudents = async (email: string, action: string, resource: string): Promise<boolean> => {
+export const checkUsertoPermitStudents = async (email: string, action: string, resource: string): Promise<boolean> => {
   try {
     const permitted = await permit.check(email, action, resource);
     console.log("Permitted", permitted);
@@ -11,7 +11,7 @@ export const syncUserToPermitStudents = async (email: string, action: string, re
   }
 };
 
-export const syncUserToPermitAssigment = async (email: string, action: string, resource: string): Promise<boolean> => {
+export const checkUserToPermitAssignment = async (email: string, action: string, resource: string): Promise<boolean> => {
   try {
     const permitted = await permit.check(email, action, resource);
     console.log("Permitted", permitted);
