@@ -4,7 +4,7 @@ import {
     StudentData
 } from '../models/studentModel';
 import { Request, Response } from 'express';
-import { syncUserToPermitStudents } from '../middlewares/permitMiddleware';
+import { checkUserToPermitStudents } from '../middlewares/permitMiddleware';
 
 
 export async function createStudent(req: Request, res: Response): Promise<void> {
@@ -16,7 +16,7 @@ export async function createStudent(req: Request, res: Response): Promise<void> 
             return;
         }
 
-        const isPermitted = await syncUserToPermitStudents(creatorEmail, "create", "students");
+        const isPermitted = await checkUserToPermitStudents(creatorEmail, "create", "students");
         if (!isPermitted) {
             res.status(403).json({ message: 'Not authorized' });
             return;
@@ -41,7 +41,7 @@ export async function fetchStudents(req: Request, res: Response): Promise<void> 
     try {
         const { email } = req.params;
 
-        const isPermitted = await syncUserToPermitStudents(email, "read", "students");
+        const isPermitted = await checkUserToPermitStudents(email, "read", "students");
         if (!isPermitted) {
             res.status(403).json({ message: 'Not authorized' });
             return;
